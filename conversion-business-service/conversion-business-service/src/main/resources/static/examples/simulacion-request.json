@@ -1,0 +1,13 @@
+{
+  "datosCliente": {
+    "dni": "12345678",
+    "tipoCliente": "Juridica",
+    "nombre": "John",
+    "apellidos": "Doe"
+  },
+  "exchangeRate": {
+    "amount": 7,
+    "currency": "PEN",
+    "targetCurrency": "USD"
+  }
+}

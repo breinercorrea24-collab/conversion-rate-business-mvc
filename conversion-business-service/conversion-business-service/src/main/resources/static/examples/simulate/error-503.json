@@ -1,0 +1,7 @@
+{
+  "clienteDTO": {
+    "dni": "12345678",
+    "nombre": "John"
+  },
+  "error": "No se pudo obtener el tipo de cambio"
+}

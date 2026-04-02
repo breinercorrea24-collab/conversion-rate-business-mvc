@@ -1,0 +1,23 @@
+{
+  "clienteDTO": {
+    "idCliente": 1,
+    "tipoCliente": "Juridica",
+    "dni": "12345678",
+    "nombre": "John",
+    "apellidos": "Doe",
+    "tasaPreferencial": 0.09,
+    "cotizaciones": null,
+    "simulaciones": null
+  },
+  "simulacionDTO": {
+    "idSimulacion": 3,
+    "idCliente": 1,
+    "amount": 7.0,
+    "currency": "USD",
+    "targetCurrency": "PEN",
+    "date": "2026-04-01",
+    "rate": 3.480496,
+    "ratePreferente": 3.390496,
+    "exchangeAmount": 24.363472
+  }
+}

@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ConversionBusinessServiceApplication<conversion-business-service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.bca.conversion_business_service.ConversionBusinessServiceApplication",
+            "projectName": "conversion-business-service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-CurrencyRateServiceApplication<currency-rate-service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.bca.currency_rate_service.CurrencyRateServiceApplication",
+            "projectName": "currency-rate-service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

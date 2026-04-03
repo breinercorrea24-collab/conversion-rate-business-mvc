@@ -20,7 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient.RequestHeaders
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.util.UriBuilder;
 
-import com.bca.currency_rate_service.api.dto.ExchangeRateResponseDTO;
+import com.bca.currency_rate_service.api.dto.ExchangeWebRateResponseDTO;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -59,11 +59,11 @@ class ExchangeRateClientTests {
     }
 
     @SuppressWarnings("unchecked")
-    private void setupWebClientMock(ExchangeRateResponseDTO response) {
+    private void setupWebClientMock(ExchangeWebRateResponseDTO response) {
         doReturn(requestUriSpec).when(webClient).get();
         doReturn(requestHeadersSpec).when(requestUriSpec).uri((Function<UriBuilder, URI>) any());
         doReturn(responseSpec).when(requestHeadersSpec).retrieve();
-        doReturn(Mono.just(response)).when(responseSpec).bodyToMono(ExchangeRateResponseDTO.class);
+        doReturn(Mono.just(response)).when(responseSpec).bodyToMono(ExchangeWebRateResponseDTO.class);
     }
 
     @Test
@@ -122,13 +122,13 @@ class ExchangeRateClientTests {
         rates.put("EUR", 0.92);
         rates.put("GBP", 0.79);
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 100.0, base, "EUR", rates, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -145,13 +145,13 @@ class ExchangeRateClientTests {
         String symbols = "";
 
         Map<String, Double> rates = new HashMap<>();
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 50.0, base, null, rates, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -170,10 +170,10 @@ class ExchangeRateClientTests {
         doReturn(requestUriSpec).when(webClient).get();
         doReturn(requestHeadersSpec).when(requestUriSpec).uri((Function<UriBuilder, URI>) any());
         doReturn(responseSpec).when(requestHeadersSpec).retrieve();
-        doReturn(Mono.error(exception)).when(responseSpec).bodyToMono(ExchangeRateResponseDTO.class);
+        doReturn(Mono.error(exception)).when(responseSpec).bodyToMono(ExchangeWebRateResponseDTO.class);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -193,13 +193,13 @@ class ExchangeRateClientTests {
         rates.put("JPY", 190.5);
         rates.put("CAD", 1.72);
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 1000.0, base, "USD", rates, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -217,13 +217,13 @@ class ExchangeRateClientTests {
         String base = "USD";
         String symbols = "EUR";
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 100.0, base, "EUR", null, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -240,13 +240,13 @@ class ExchangeRateClientTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("EUR_GB", 0.92);
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 100.0, base, "EUR_GB", rates, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -263,13 +263,13 @@ class ExchangeRateClientTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("AUD", 1.85);
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 75.0, base, "AUD", rates, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -277,7 +277,7 @@ class ExchangeRateClientTests {
                 .verifyComplete();
 
         verify(requestHeadersSpec).retrieve();
-        verify(responseSpec).bodyToMono(ExchangeRateResponseDTO.class);
+        verify(responseSpec).bodyToMono(ExchangeWebRateResponseDTO.class);
     }
 
     @Test
@@ -289,13 +289,13 @@ class ExchangeRateClientTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("INR", 1.0);
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 200.0, base, "INR", rates, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         assertNotNull(result);
@@ -311,13 +311,13 @@ class ExchangeRateClientTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("EUR", 0.92);
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 0.0, base, "EUR", rates, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -334,13 +334,13 @@ class ExchangeRateClientTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("USD", 1.27);
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 999999.99, base, "USD", rates, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -357,13 +357,13 @@ class ExchangeRateClientTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("GBP", 0.86);
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 -50.0, base, "GBP", rates, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -381,13 +381,13 @@ class ExchangeRateClientTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("NZD", 1.08);
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 100.0, base, "NZD", rates, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -398,7 +398,7 @@ class ExchangeRateClientTests {
         verify(webClient, times(1)).get();
         verify(requestUriSpec, times(1)).uri((Function<UriBuilder, URI>) any());
         verify(requestHeadersSpec, times(1)).retrieve();
-        verify(responseSpec, times(1)).bodyToMono(ExchangeRateResponseDTO.class);
+        verify(responseSpec, times(1)).bodyToMono(ExchangeWebRateResponseDTO.class);
     }
 
     @Test
@@ -411,13 +411,13 @@ class ExchangeRateClientTests {
             Map<String, Double> rates = new HashMap<>();
             rates.put("EUR", 0.92);
 
-            ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+            ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                     100.0, base, "EUR", rates, System.currentTimeMillis(), LocalDate.now());
 
             setupWebClientMock(expectedResponse);
 
             // Act
-            Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, "EUR");
+            Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, "EUR");
 
             // Assert
             StepVerifier.create(result)
@@ -439,13 +439,13 @@ class ExchangeRateClientTests {
         rates.put("PHP", 57.89);
         rates.put("VND", 25123.45);
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 5000.0, base, "MYR", rates, System.currentTimeMillis(), LocalDate.now());
 
         setupWebClientMock(expectedResponse);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert
         StepVerifier.create(result)
@@ -468,17 +468,17 @@ class ExchangeRateClientTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("PKR", 3.38);
 
-        ExchangeRateResponseDTO expectedResponse = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO expectedResponse = new ExchangeWebRateResponseDTO(
                 100.0, base, "PKR", rates, System.currentTimeMillis(), LocalDate.now());
 
         // Setup with real URI builder execution
         doReturn(requestUriSpec).when(webClient).get();
         doReturn(requestHeadersSpec).when(requestUriSpec).uri((Function<UriBuilder, URI>) any());
         doReturn(responseSpec).when(requestHeadersSpec).retrieve();
-        doReturn(Mono.just(expectedResponse)).when(responseSpec).bodyToMono(ExchangeRateResponseDTO.class);
+        doReturn(Mono.just(expectedResponse)).when(responseSpec).bodyToMono(ExchangeWebRateResponseDTO.class);
 
         // Act
-        Mono<ExchangeRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
+        Mono<ExchangeWebRateResponseDTO> result = exchangeRateClient.obtenerTasaDeCambio(base, symbols);
 
         // Assert - Verify all steps of WebClient chain are executed
         StepVerifier.create(result)
@@ -510,7 +510,7 @@ class ExchangeRateClientTests {
                     .addHeader("Content-Type", "application/json"));
             
             // Act - This executes the lambda URI builder with real code
-            Mono<ExchangeRateResponseDTO> result = realClient.obtenerTasaDeCambio("USD", "EUR,GBP");
+            Mono<ExchangeWebRateResponseDTO> result = realClient.obtenerTasaDeCambio("USD", "EUR,GBP");
             
             // Assert - Verify response is returned
             StepVerifier.create(result)

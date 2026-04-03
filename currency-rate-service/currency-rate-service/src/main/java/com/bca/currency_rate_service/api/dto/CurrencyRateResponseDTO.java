@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RateValueDTO {
+public class CurrencyRateResponseDTO {
      private String from;        // Moneda origen
     private String to;           // Moneda destino
     private double amount;       // Monto original que llega del request

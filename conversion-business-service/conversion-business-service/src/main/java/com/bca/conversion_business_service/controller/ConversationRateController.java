@@ -10,6 +10,8 @@ import com.bca.conversion_business_service.dto.CotizacionDTO;
 import com.bca.conversion_business_service.dto.SimulacionDTO;
 import com.bca.conversion_business_service.dto.cotizacion.CotizacionRequestDTO;
 import com.bca.conversion_business_service.dto.simulacion.SimulacionRequestDTO;
+import com.bca.conversion_business_service.dto.response.SimulacionResponseDTO;
+import com.bca.conversion_business_service.dto.response.CotizacionResponseDTO;
 import com.bca.conversion_business_service.service.ClienteService;
 import com.bca.conversion_business_service.service.CotizacionService;
 import com.bca.conversion_business_service.service.SimulacionService;
@@ -45,7 +47,7 @@ public class ConversationRateController {
 
 	@Operation(summary = "Simular conversión", description = "Simula una conversión de divisas para un cliente y retorna la simulación guardada")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Simulación exitosa", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class))),
+			@ApiResponse(responseCode = "200", description = "Simulación exitosa", content = @Content(mediaType = "application/json", schema = @Schema(implementation = SimulacionResponseDTO.class))),
 
 			@ApiResponse(responseCode = "400", description = "Solicitud inválida", content = @Content(mediaType = "application/json")),
 
@@ -101,7 +103,7 @@ public class ConversationRateController {
 
 	@Operation(summary = "Crear cotización", description = "Guarda una cotización basada en la preferencia de tipo de cambio y operación")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Cotización creada exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class))),
+			@ApiResponse(responseCode = "200", description = "Cotización creada exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CotizacionResponseDTO.class))),
 
 			@ApiResponse(responseCode = "400", description = "Solicitud inválida", content = @Content(mediaType = "application/json")),
 

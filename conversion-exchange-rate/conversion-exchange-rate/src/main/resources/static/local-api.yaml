@@ -1,0 +1,253 @@
+openapi: 3.0.1
+info:
+  title: Conversion Business Service API
+  description: API reactiva para simulaciones y cotizaciones de cambio de divisas
+  contact:
+    name: BCA API Team
+  version: 0.0.1
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: Conversion API
+  description: Endpoints para simulación y cotización de divisas
+paths:
+  /api/v1/exchange-rate:
+    post:
+      tags:
+      - Conversion API
+      summary: Simular conversión
+      description: Simula una conversión de divisas para un cliente y retorna la simulación
+        guardada
+      operationId: simular
+      requestBody:
+        description: Datos de simulación
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SimulacionRequestDTO"
+            example:
+              datosCliente:
+                dni: "12345678"
+                tipoCliente: Juridica
+                nombre: John
+                apellidos: Doe
+              exchangeRate:
+                amount: 7
+                currency: PEN
+                targetCurrency: USD
+        required: true
+      responses:
+        "200":
+          description: Simulación exitosa
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                clienteDTO:
+                  idCliente: 1
+                  tipoCliente: Juridica
+                  dni: "12345678"
+                  nombre: John
+                  apellidos: Doe
+                  tasaPreferencial: 0.09
+                  cotizaciones: null
+                  simulaciones: null
+                simulacionDTO:
+                  idSimulacion: 3
+                  idCliente: 1
+                  amount: 7.0
+                  currency: USD
+                  targetCurrency: PEN
+                  date: 2026-04-01
+                  rate: 3.480496
+                  ratePreferente: 3.390496
+                  exchangeAmount: 24.363472
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              example:
+                error: request.exchangeRate.amount is required
+        "503":
+          description: Servicio externo no disponible
+          content:
+            application/json:
+              example:
+                clienteDTO:
+                  dni: "12345678"
+                  nombre: John
+                error: No se pudo obtener el tipo de cambio
+  /api/v1/booking-rate:
+    post:
+      tags:
+      - Conversion API
+      summary: Crear cotización
+      description: Guarda una cotización basada en la preferencia de tipo de cambio
+        y operación
+      operationId: cotizar
+      requestBody:
+        description: Datos para cotización
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CotizacionRequestDTO"
+            example:
+              status: BOOKED
+              preferenceRate:
+                idSimulacion: "40"
+                amount: "7"
+                currency: PEN
+              operation:
+                exchangeRate:
+                  baseCurrency: PEN
+                  targetCurrency: USD
+        required: true
+      responses:
+        "200":
+          description: Cotización creada exitosamente
+          content:
+            application/json:
+              schema:
+                type: string
+              example:
+                targetCurrency: USD
+                idCotizacion: 3
+                currency: PEN
+                status: BOOKED
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              example:
+                error: request.exchangeRate.amount is required
+        "503":
+          description: Servicio externo no disponible
+          content:
+            application/json:
+              example:
+                clienteDTO:
+                  dni: "12345678"
+                  nombre: John
+                error: No se pudo obtener el tipo de cambio
+components:
+  schemas:
+    ClienteDTO:
+      type: object
+      properties:
+        idCliente:
+          type: integer
+          format: int64
+        tipoCliente:
+          type: string
+        dni:
+          type: string
+        nombre:
+          type: string
+        apellidos:
+          type: string
+        tasaPreferencial:
+          type: number
+          format: double
+        cotizaciones:
+          type: array
+          items:
+            $ref: "#/components/schemas/CotizacionDTO"
+        simulaciones:
+          type: array
+          items:
+            $ref: "#/components/schemas/SimulacionDTO"
+    CotizacionDTO:
+      type: object
+      properties:
+        idCotizacion:
+          type: integer
+          format: int64
+        idSimulacion:
+          type: integer
+          format: int64
+        amount:
+          type: number
+        currency:
+          type: string
+        targetCurrency:
+          type: string
+        date:
+          type: string
+          format: date
+        status:
+          type: string
+    ExchangeRateRequestDTO:
+      type: object
+      properties:
+        idSimulacion:
+          type: integer
+          format: int64
+        amount:
+          type: number
+        currency:
+          type: string
+        targetCurrency:
+          type: string
+        rates:
+          type: object
+          additionalProperties:
+            type: number
+        timestamp:
+          type: integer
+          format: int64
+        date:
+          type: string
+          format: date
+        token:
+          type: string
+    SimulacionDTO:
+      type: object
+      properties:
+        idSimulacion:
+          type: integer
+          format: int64
+        idCliente:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        targetCurrency:
+          type: string
+        date:
+          type: string
+          format: date
+        rate:
+          type: number
+          format: double
+        ratePreferente:
+          type: number
+          format: double
+        exchangeAmount:
+          type: number
+          format: double
+    SimulacionRequestDTO:
+      type: object
+      properties:
+        datosCliente:
+          $ref: "#/components/schemas/ClienteDTO"
+        exchangeRate:
+          $ref: "#/components/schemas/ExchangeRateRequestDTO"
+    CotizacionRequestDTO:
+      type: object
+      properties:
+        status:
+          type: string
+        preferenceRate:
+          $ref: "#/components/schemas/ExchangeRateRequestDTO"
+        operation:
+          $ref: "#/components/schemas/OperationDTO"
+    OperationDTO:
+      type: object
+      properties:
+        exchangeRate:
+          $ref: "#/components/schemas/ExchangeRateRequestDTO"

@@ -111,13 +111,15 @@ El servicio estará disponible en:
 
 ------------------------------------------------------------------------
 
-# ▶️ Swagguer
+# ▶️ Swagger
 
-**http://localhost:8081/webjars/swagger-ui/index.html**
+🔹 **Swagger UI**  
+Interfaz interactiva para probar los endpoints:  
+http://localhost:8081/webjars/swagger-ui/index.html
 
-**http://localhost:8081/v3/api-docs** 
-
-**http://localhost:8081/v3/api-docs.yaml**
+🔹 **OpenAPI Docs**  
+JSON: http://localhost:8081/v3/api-docs  
+YAML: http://localhost:8081/v3/api-docs.yaml  
 
 ------------------------------------------------------------------------
 

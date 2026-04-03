@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import com.bca.currency_rate_service.api.dto.RateValueDTO;
+import com.bca.currency_rate_service.api.dto.CurrencyRateResponseDTO;
 import com.bca.currency_rate_service.service.RateService;
 
 import reactor.core.publisher.Mono;
@@ -53,7 +53,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.of(to));
         when(request.queryParam("amount")).thenReturn(Optional.of("100"));
 
-        RateValueDTO rateValue = new RateValueDTO(from, to, amount, 0.92, 92.0);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(from, to, amount, 0.92, 92.0);
         when(rateService.getRate(from, to, amount)).thenReturn(Mono.just(rateValue));
 
         // Act
@@ -80,7 +80,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.of(to));
         when(request.queryParam("amount")).thenReturn(Optional.of("50"));
 
-        RateValueDTO rateValue = new RateValueDTO(defaultFrom, to, amount, 0.79, 39.5);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(defaultFrom, to, amount, 0.79, 39.5);
         when(rateService.getRate(defaultFrom, to, amount)).thenReturn(Mono.just(rateValue));
 
         // Act
@@ -106,7 +106,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.empty());
         when(request.queryParam("amount")).thenReturn(Optional.of("25"));
 
-        RateValueDTO rateValue = new RateValueDTO(from, defaultTo, amount, 1.17, 29.25);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(from, defaultTo, amount, 1.17, 29.25);
         when(rateService.getRate(from, defaultTo, amount)).thenReturn(Mono.just(rateValue));
 
         // Act
@@ -132,7 +132,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.of(to));
         when(request.queryParam("amount")).thenReturn(Optional.empty());
 
-        RateValueDTO rateValue = new RateValueDTO(from, to, defaultAmount, 1.09, 1.09);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(from, to, defaultAmount, 1.09, 1.09);
         when(rateService.getRate(from, to, defaultAmount)).thenReturn(Mono.just(rateValue));
 
         // Act
@@ -158,7 +158,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.empty());
         when(request.queryParam("amount")).thenReturn(Optional.empty());
 
-        RateValueDTO rateValue = new RateValueDTO(defaultFrom, defaultTo, defaultAmount, 0.92, 0.92);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(defaultFrom, defaultTo, defaultAmount, 0.92, 0.92);
         when(rateService.getRate(defaultFrom, defaultTo, defaultAmount)).thenReturn(Mono.just(rateValue));
 
         // Act
@@ -184,7 +184,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.of(to));
         when(request.queryParam("amount")).thenReturn(Optional.of("0"));
 
-        RateValueDTO rateValue = new RateValueDTO(from, to, amount, 0.92, 0.0);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(from, to, amount, 0.92, 0.0);
         when(rateService.getRate(from, to, amount)).thenReturn(Mono.just(rateValue));
 
         // Act
@@ -208,7 +208,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.of(to));
         when(request.queryParam("amount")).thenReturn(Optional.of("1000000"));
 
-        RateValueDTO rateValue = new RateValueDTO(from, to, amount, 0.92, 920000.0);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(from, to, amount, 0.92, 920000.0);
         when(rateService.getRate(from, to, amount)).thenReturn(Mono.just(rateValue));
 
         // Act
@@ -232,7 +232,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.of(to));
         when(request.queryParam("amount")).thenReturn(Optional.of("0.01"));
 
-        RateValueDTO rateValue = new RateValueDTO(from, to, amount, 0.92, 0.0092);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(from, to, amount, 0.92, 0.0092);
         when(rateService.getRate(from, to, amount)).thenReturn(Mono.just(rateValue));
 
         // Act
@@ -256,7 +256,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.of(to));
         when(request.queryParam("amount")).thenReturn(Optional.of("100"));
 
-        RateValueDTO rateValue = new RateValueDTO(from, to, amount, 0.92, 92.0);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(from, to, amount, 0.92, 92.0);
         when(rateService.getRate(from, to, amount)).thenReturn(Mono.just(rateValue));
 
         // Act
@@ -305,7 +305,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.of(to));
         when(request.queryParam("amount")).thenReturn(Optional.of("100"));
 
-        RateValueDTO rateValue = new RateValueDTO(from, to, amount, 0.92, 92.0);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(from, to, amount, 0.92, 92.0);
         when(rateService.getRate(from, to, amount)).thenReturn(Mono.just(rateValue));
 
         // Act
@@ -327,7 +327,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.of(to1));
         when(request.queryParam("amount")).thenReturn(Optional.of("50"));
 
-        RateValueDTO rateValue1 = new RateValueDTO(from1, to1, amount1, 190.5, 9525.0);
+        CurrencyRateResponseDTO rateValue1 = new CurrencyRateResponseDTO(from1, to1, amount1, 190.5, 9525.0);
         when(rateService.getRate(from1, to1, amount1)).thenReturn(Mono.just(rateValue1));
 
         // Act
@@ -353,7 +353,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.of(to));
         when(request.queryParam("amount")).thenReturn(Optional.of("-100"));
 
-        RateValueDTO rateValue = new RateValueDTO(from, to, amount, 0.92, -92.0);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(from, to, amount, 0.92, -92.0);
         when(rateService.getRate(from, to, amount)).thenReturn(Mono.just(rateValue));
 
         // Act
@@ -377,7 +377,7 @@ class RateHandlerTests {
         when(request.queryParam("to")).thenReturn(Optional.of(to));
         when(request.queryParam("amount")).thenReturn(Optional.of("75.5"));
 
-        RateValueDTO rateValue = new RateValueDTO(from, to, amount, 1.85, 139.675);
+        CurrencyRateResponseDTO rateValue = new CurrencyRateResponseDTO(from, to, amount, 1.85, 139.675);
         when(rateService.getRate(from, to, amount)).thenReturn(Mono.just(rateValue));
 
         // Act

@@ -3,7 +3,7 @@ package com.bca.currency_rate_service.api;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.bca.currency_rate_service.api.dto.ExchangeRateResponseDTO;
+import com.bca.currency_rate_service.api.dto.ExchangeWebRateResponseDTO;
 
 import reactor.core.publisher.Mono;
 
@@ -16,7 +16,7 @@ public class ExchangeRateClient {
         this.webClient = webClient;
     }
 
-    public Mono<ExchangeRateResponseDTO> obtenerTasaDeCambio(String base, String symbols) {
+    public Mono<ExchangeWebRateResponseDTO> obtenerTasaDeCambio(String base, String symbols) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("fixer/latest")
@@ -24,6 +24,6 @@ public class ExchangeRateClient {
                         .queryParam("symbols", symbols)
                         .build())
                 .retrieve()
-                .bodyToMono(ExchangeRateResponseDTO.class);
+                .bodyToMono(ExchangeWebRateResponseDTO.class);
     }
 }

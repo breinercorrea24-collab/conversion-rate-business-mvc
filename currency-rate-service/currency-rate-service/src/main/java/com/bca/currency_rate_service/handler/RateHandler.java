@@ -1,11 +1,10 @@
 package com.bca.currency_rate_service.handler;
 
-import java.util.Map;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import com.bca.currency_rate_service.api.dto.CurrencyRateResponseDTO;
 import com.bca.currency_rate_service.service.RateService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,11 +36,11 @@ public class RateHandler {
         }
     )
     @ApiResponses(value = {
-		@ApiResponse(responseCode = "200", description = "Tasa de cambio obtenida exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Map.class))),
+		@ApiResponse(responseCode = "200", description = "Tasa de cambio obtenida exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CurrencyRateResponseDTO.class))),
 
-			@ApiResponse(responseCode = "400", description = "Solicitud inválida", content = @Content(mediaType = "application/json")),
+			@ApiResponse(responseCode = "400", description = "Solicitud inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GlobalErrorResponse.class))),
 
-			@ApiResponse(responseCode = "503", description = "Servicio externo no disponible", content = @Content(mediaType = "application/json"))
+			@ApiResponse(responseCode = "503", description = "Servicio externo no disponible", content = @Content(mediaType = "application/json", schema = @Schema(implementation = GlobalErrorResponse.class)))
 	})
     public Mono<ServerResponse> getRate(ServerRequest request) {
         String from = request.queryParam("from").orElse("USD");

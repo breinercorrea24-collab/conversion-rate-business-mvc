@@ -1,0 +1,114 @@
+openapi: 3.0.1
+info:
+  title: API de Conversión de Monedas
+  description: Documentación generada con SpringDoc para WebFlux.
+  version: 1.0.0
+servers:
+- url: http://localhost:8081
+  description: Generated server url
+tags:
+- name: Rates
+  description: Operaciones con tasas
+paths:
+  /api/v1/rates:
+    get:
+      tags:
+      - Rates
+      summary: Obtener tasa de cambio
+      operationId: getRate
+      parameters:
+      - name: from
+        in: query
+        description: Moneda origen
+        required: true
+        schema:
+          type: string
+      - name: to
+        in: query
+        description: Moneda destino
+        required: true
+        schema:
+          type: string
+      - name: amount
+        in: query
+        description: Monto a convertir
+        required: true
+        schema:
+          type: number
+          format: double
+      responses:
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: request.exchangeRate.amount is required
+        "200":
+          description: Tasa de cambio obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrencyRateResponseDTO"
+              example:
+                from: PEN
+                to: EUR
+                amount: 100.1
+                rate: 0.249088
+                converted: 24.933708799999998
+        "503":
+          description: Servicio externo no disponible
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                clienteDTO:
+                  dni: "12345678"
+                  nombre: John
+                error: No se pudo obtener el tipo de cambio
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          description: Timestamp del error
+          format: date-time
+          example: 2024-01-01T12:00:00Z
+        status:
+          type: integer
+          description: Código HTTP del error
+          format: int32
+          example: 400
+        error:
+          type: string
+          description: Tipo de error
+          example: Bad Request
+        message:
+          type: string
+          description: Mensaje descriptivo del error
+          example: Currency parameters are required
+        path:
+          type: string
+          description: Path del endpoint
+          example: /api/v1/rates
+      description: Respuesta de error
+    CurrencyRateResponseDTO:
+      type: object
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+        amount:
+          type: number
+          format: double
+        rate:
+          type: number
+          format: double
+        converted:
+          type: number
+          format: double

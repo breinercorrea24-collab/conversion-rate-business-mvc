@@ -14,8 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.bca.currency_rate_service.api.ExchangeRateClient;
-import com.bca.currency_rate_service.api.dto.ExchangeRateResponseDTO;
-import com.bca.currency_rate_service.api.dto.RateValueDTO;
+import com.bca.currency_rate_service.api.dto.ExchangeWebRateResponseDTO;
+import com.bca.currency_rate_service.api.dto.CurrencyRateResponseDTO;
 
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -49,13 +49,13 @@ class RateServiceTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("EUR", 0.92);
 
-        ExchangeRateResponseDTO response = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO response = new ExchangeWebRateResponseDTO(
                 100.0, "USD", "EUR", rates, System.currentTimeMillis(), LocalDate.now());
 
         doReturn(Mono.just(response)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
 
         // Act
-        Mono<RateValueDTO> result = rateService.getRate(from, to, amount);
+        Mono<CurrencyRateResponseDTO> result = rateService.getRate(from, to, amount);
 
         // Assert
         StepVerifier.create(result)
@@ -81,13 +81,13 @@ class RateServiceTests {
         Map<String, Double> rates = new HashMap<>();
         // XXX not in rates, should default to 1.0
 
-        ExchangeRateResponseDTO response = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO response = new ExchangeWebRateResponseDTO(
                 50.0, "USD", "XXX", rates, System.currentTimeMillis(), LocalDate.now());
 
         doReturn(Mono.just(response)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
 
         // Act
-        Mono<RateValueDTO> result = rateService.getRate(from, to, amount);
+        Mono<CurrencyRateResponseDTO> result = rateService.getRate(from, to, amount);
 
         // Assert
         StepVerifier.create(result)
@@ -111,13 +111,13 @@ class RateServiceTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("JPY", 190.5);
 
-        ExchangeRateResponseDTO response = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO response = new ExchangeWebRateResponseDTO(
                 0.0, "GBP", "JPY", rates, System.currentTimeMillis(), LocalDate.now());
 
         doReturn(Mono.just(response)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
 
         // Act
-        Mono<RateValueDTO> result = rateService.getRate(from, to, amount);
+        Mono<CurrencyRateResponseDTO> result = rateService.getRate(from, to, amount);
 
         // Assert
         StepVerifier.create(result)
@@ -138,13 +138,13 @@ class RateServiceTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("EUR", 0.92);
 
-        ExchangeRateResponseDTO response = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO response = new ExchangeWebRateResponseDTO(
                 1000000.0, "USD", "EUR", rates, System.currentTimeMillis(), LocalDate.now());
 
         doReturn(Mono.just(response)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
 
         // Act
-        Mono<RateValueDTO> result = rateService.getRate(from, to, amount);
+        Mono<CurrencyRateResponseDTO> result = rateService.getRate(from, to, amount);
 
         // Assert
         StepVerifier.create(result)
@@ -165,13 +165,13 @@ class RateServiceTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("USD", 1.09);
 
-        ExchangeRateResponseDTO response = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO response = new ExchangeWebRateResponseDTO(
                 0.01, "EUR", "USD", rates, System.currentTimeMillis(), LocalDate.now());
 
         doReturn(Mono.just(response)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
 
         // Act
-        Mono<RateValueDTO> result = rateService.getRate(from, to, amount);
+        Mono<CurrencyRateResponseDTO> result = rateService.getRate(from, to, amount);
 
         // Assert
         StepVerifier.create(result)
@@ -195,13 +195,13 @@ class RateServiceTests {
         rates.put("JPY", 150.5);
         rates.put("CAD", 1.36);
 
-        ExchangeRateResponseDTO response = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO response = new ExchangeWebRateResponseDTO(
                 100.0, "USD", "GBP", rates, System.currentTimeMillis(), LocalDate.now());
 
         doReturn(Mono.just(response)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
 
         // Act
-        Mono<RateValueDTO> result = rateService.getRate(from, to, amount);
+        Mono<CurrencyRateResponseDTO> result = rateService.getRate(from, to, amount);
 
         // Assert
         StepVerifier.create(result)
@@ -224,7 +224,7 @@ class RateServiceTests {
         doReturn(Mono.error(exception)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
 
         // Act
-        Mono<RateValueDTO> result = rateService.getRate(from, to, amount);
+        Mono<CurrencyRateResponseDTO> result = rateService.getRate(from, to, amount);
 
         // Assert
         StepVerifier.create(result)
@@ -242,13 +242,13 @@ class RateServiceTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("VEF", 2550000.0); // Very high exchange rate
 
-        ExchangeRateResponseDTO response = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO response = new ExchangeWebRateResponseDTO(
                 100.0, "USD", "VEF", rates, System.currentTimeMillis(), LocalDate.now());
 
         doReturn(Mono.just(response)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
 
         // Act
-        Mono<RateValueDTO> result = rateService.getRate(from, to, amount);
+        Mono<CurrencyRateResponseDTO> result = rateService.getRate(from, to, amount);
 
         // Assert
         StepVerifier.create(result)
@@ -269,13 +269,13 @@ class RateServiceTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("BTC", 0.000023); // Very low exchange rate
 
-        ExchangeRateResponseDTO response = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO response = new ExchangeWebRateResponseDTO(
                 1000.0, "USD", "BTC", rates, System.currentTimeMillis(), LocalDate.now());
 
         doReturn(Mono.just(response)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
 
         // Act
-        Mono<RateValueDTO> result = rateService.getRate(from, to, amount);
+        Mono<CurrencyRateResponseDTO> result = rateService.getRate(from, to, amount);
 
         // Assert
         StepVerifier.create(result)
@@ -296,13 +296,13 @@ class RateServiceTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("EUR", 0.92);
 
-        ExchangeRateResponseDTO response = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO response = new ExchangeWebRateResponseDTO(
                 100.0, "USD", "EUR", rates, System.currentTimeMillis(), LocalDate.now());
 
         doReturn(Mono.just(response)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
 
         // Act
-        Mono<RateValueDTO> result = rateService.getRate(from, to, amount);
+        Mono<CurrencyRateResponseDTO> result = rateService.getRate(from, to, amount);
 
         // Assert
         assertNotNull(result);
@@ -319,7 +319,7 @@ class RateServiceTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("AUD", 1.85);
 
-        ExchangeRateResponseDTO response = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO response = new ExchangeWebRateResponseDTO(
                 50.0, "CHF", "AUD", rates, System.currentTimeMillis(), LocalDate.now());
 
         doReturn(Mono.just(response)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
@@ -341,13 +341,13 @@ class RateServiceTests {
         Map<String, Double> rates = new HashMap<>();
         rates.put("INR", 0.53);
 
-        ExchangeRateResponseDTO response = new ExchangeRateResponseDTO(
+        ExchangeWebRateResponseDTO response = new ExchangeWebRateResponseDTO(
                 1000.0, "JPY", "INR", rates, System.currentTimeMillis(), LocalDate.now());
 
         doReturn(Mono.just(response)).when(exchangeRateClient).obtenerTasaDeCambio(from, to);
 
         // Act
-        Mono<RateValueDTO> result = rateService.getRate(from, to, amount);
+        Mono<CurrencyRateResponseDTO> result = rateService.getRate(from, to, amount);
 
         // Assert
         StepVerifier.create(result)
